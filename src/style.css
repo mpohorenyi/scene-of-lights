@@ -18,3 +18,24 @@ body
     outline: none;
 }
 
+.debug-ui {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+}
+
+.time-display {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.5rem;
+  z-index: 100;
+
+  border-radius: 0.25rem;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  color: white;
+  font-size: 1rem;
+  font-family: 'Arial', sans-serif;
+}
