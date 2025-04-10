@@ -1,11 +1,12 @@
 import * as THREE from 'three';
-import { DRACOLoader, GLTF, GLTFLoader } from 'three/examples/jsm/Addons.js';
+import { DRACOLoader, Font, FontLoader, GLTF, GLTFLoader } from 'three/examples/jsm/Addons.js';
 
 export class LoadManager {
   private LoadingManager: THREE.LoadingManager;
   private TextureLoader: THREE.TextureLoader;
   private DRACOLoader: DRACOLoader;
   private GLTFLoader: GLTFLoader;
+  private FontLoader: FontLoader;
 
   constructor() {
     this.LoadingManager = new THREE.LoadingManager();
@@ -17,6 +18,8 @@ export class LoadManager {
 
     this.GLTFLoader = new GLTFLoader(this.LoadingManager);
     this.GLTFLoader.setDRACOLoader(this.DRACOLoader);
+
+    this.FontLoader = new FontLoader(this.LoadingManager);
 
     this.setupLoadingManager();
   }
@@ -39,20 +42,28 @@ export class LoadManager {
     onProgress?: (event: ProgressEvent) => void,
     onError?: (error: unknown) => void
   ): void {
-    this.GLTFLoader.load(
-      url,
-      gltf => {
-        onLoad(gltf);
-      },
-      onProgress,
-      error => {
-        if (onError) {
-          onError(error);
-        } else {
-          console.error(`Error loading GLTF ${url}:`, error);
-        }
+    this.GLTFLoader.load(url, onLoad, onProgress, error => {
+      if (onError) {
+        onError(error);
+      } else {
+        console.error(`Error loading GLTF ${url}:`, error);
       }
-    );
+    });
+  }
+
+  public loadFont(
+    url: string,
+    onLoad: (font: Font) => void,
+    onProgress?: (event: ProgressEvent) => void,
+    onError?: (error: unknown) => void
+  ): void {
+    this.FontLoader.load(url, onLoad, onProgress, error => {
+      if (onError) {
+        onError(error);
+      } else {
+        console.error(`Error loading font ${url}:`, error);
+      }
+    });
   }
 
   private setupLoadingManager(): void {
