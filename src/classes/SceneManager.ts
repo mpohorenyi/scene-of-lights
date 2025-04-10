@@ -1,6 +1,6 @@
 import { Group } from '@tweenjs/tween.js';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/Addons.js';
+import { OrbitControls, Timer } from 'three/examples/jsm/Addons.js';
 
 export class SceneManager {
   public canvas: HTMLCanvasElement;
@@ -9,6 +9,9 @@ export class SceneManager {
   public renderer: THREE.WebGLRenderer;
   public controls: OrbitControls;
   public animationGroup: Group;
+  public timer: Timer;
+
+  private animationCallbacks: Array<() => void> = [];
 
   private sizes = {
     width: window.innerWidth,
@@ -43,9 +46,20 @@ export class SceneManager {
     // Initialize Tween Animation Group
     this.animationGroup = new Group();
 
+    // Initialize Timer
+    this.timer = new Timer();
+
     this.setupEventListeners();
 
     this.tick();
+  }
+
+  /**
+   * Adds a function to an animation loop
+   * @param callback A function that will be called on every frame
+   */
+  public addToAnimationLoop(callback: () => void): void {
+    this.animationCallbacks.push(callback);
   }
 
   private setupEventListeners() {
@@ -84,7 +98,11 @@ export class SceneManager {
   }
 
   private tick() {
+    this.timer.update();
+
     this.animationGroup.update();
+
+    this.animationCallbacks.forEach(callback => callback());
 
     this.controls.update();
 
