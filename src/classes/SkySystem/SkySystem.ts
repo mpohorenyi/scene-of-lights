@@ -155,15 +155,13 @@ export class SkySystem {
   public getNightLightIntensity(): number {
     const sunElevation = this.skyRenderer.getSunElevation();
 
-    if (sunElevation > 80) {
-      return sunElevation / 100;
-    }
-
-    if (sunElevation > 100) {
+    if (sunElevation >= 100) {
       return 1;
+    } else if (sunElevation > 90) {
+      return 1 - (100 - sunElevation) / 10;
+    } else {
+      return 0;
     }
-
-    return 0;
   }
 
   /**
