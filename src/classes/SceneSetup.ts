@@ -140,7 +140,9 @@ export class SceneSetup {
     tableGroup.position.set(2.1, -0.02, 3.3);
     tableGroup.rotation.y = Math.PI * 0.95;
 
-    const candleLight = new THREE.PointLight(0xffb347, 1.2, 2.7, 1.7);
+    const maxCandleLightIntensity = 1.2;
+
+    const candleLight = new THREE.PointLight(0xffb347, maxCandleLightIntensity, 2.7, 1.7);
     candleLight.position.set(-0.1, 0.86, 0.06);
 
     candleLight.castShadow = true;
@@ -155,11 +157,20 @@ export class SceneSetup {
 
     tableGroup.add(candleLight);
 
-    const glow = new THREE.PointLight(0xffb347, 0.3, 0.8);
+    const maxGlowIntensity = 0.3;
+
+    const glow = new THREE.PointLight(0xffb347, maxGlowIntensity, 0.8);
     glow.position.copy(candleLight.position);
     tableGroup.add(glow);
 
     this.sceneManager.scene.add(tableGroup);
+
+    this.sceneManager.addToAnimationLoop(() => {
+      const nightLightIntensity = this.skySystem.getNightLightIntensity();
+
+      candleLight.intensity = maxCandleLightIntensity * nightLightIntensity;
+      glow.intensity = maxGlowIntensity * nightLightIntensity;
+    });
   }
 
   private createStreetLampWithChair(): void {
@@ -199,7 +210,16 @@ export class SceneSetup {
     streetLampGroup.position.set(3.6, -0.03, -1);
     streetLampGroup.rotation.y = -Math.PI * 0.2;
 
-    const streetLight = new THREE.SpotLight('#ffffc2', 1.3, 5, Math.PI * 0.3, 0.6, 1);
+    const maxStreetLightIntensity = 1.3;
+
+    const streetLight = new THREE.SpotLight(
+      '#ffffc2',
+      maxStreetLightIntensity,
+      5,
+      Math.PI * 0.3,
+      0.6,
+      1
+    );
     streetLight.position.set(0.05, 2.6, 0.6);
     streetLight.target.position.set(0.5, -3, 1.5);
 
@@ -217,6 +237,12 @@ export class SceneSetup {
     streetLampGroup.add(streetLight.target);
 
     this.sceneManager.scene.add(streetLampGroup);
+
+    this.sceneManager.addToAnimationLoop(() => {
+      const nightLightIntensity = this.skySystem.getNightLightIntensity();
+
+      streetLight.intensity = maxStreetLightIntensity * nightLightIntensity;
+    });
   }
 
   private setupRendering(): void {
