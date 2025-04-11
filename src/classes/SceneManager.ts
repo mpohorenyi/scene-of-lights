@@ -51,6 +51,7 @@ export class SceneManager {
     this.controls.panSpeed = 0.5;
     this.controls.screenSpacePanning = false;
 
+    this.controls.enabled = false;
     this.controls.update();
 
     // Initialize Tween Animation Group

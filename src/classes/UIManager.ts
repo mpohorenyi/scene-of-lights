@@ -1,5 +1,6 @@
 import GUI from 'lil-gui';
 
+import { SceneManager } from './SceneManager';
 import { SkySystem } from './SkySystem';
 
 export class UIManager {
@@ -21,6 +22,17 @@ export class UIManager {
     });
 
     this.createSkyControls(skySystem);
+  }
+
+  public initControls(sceneManager: SceneManager): void {
+    const controlsFolder = this.gui.addFolder('Camera Controls');
+
+    controlsFolder
+      .add({ enabled: false }, 'enabled')
+      .name('Enable Camera Controls')
+      .onChange((value: boolean) => {
+        sceneManager.controls.enabled = value;
+      });
   }
 
   public updateTimeDisplay(timeString: string): void {
