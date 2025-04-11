@@ -21,6 +21,8 @@ export class SceneSetup {
 
     this.createStreetLampWithChair();
 
+    this.createCar();
+
     this.skySystem = new SkySystem(this.sceneManager.scene, this.sceneManager.timer);
   }
 
@@ -61,7 +63,7 @@ export class SceneSetup {
     terrainDisplacementTexture.wrapT = THREE.RepeatWrapping;
 
     const terrain = new THREE.Mesh(
-      new THREE.PlaneGeometry(40, 40, 100, 100),
+      new THREE.PlaneGeometry(50, 50, 100, 100),
       new THREE.MeshStandardMaterial({
         color: 'white',
         alphaMap: terrainAlphaTexture,
@@ -242,6 +244,25 @@ export class SceneSetup {
       const nightLightIntensity = this.skySystem.getNightLightIntensity();
 
       streetLight.intensity = maxStreetLightIntensity * nightLightIntensity;
+    });
+  }
+
+  private createCar(): void {
+    this.loadManager.loadGLTF('models/covered_car_draco/scene.gltf', gltf => {
+      const car = gltf.scene;
+
+      car.scale.set(1.1, 1.1, 1.1);
+      car.position.set(0.1, -0.03, -5.5);
+      car.rotation.y = Math.PI * 0.55;
+
+      car.traverse(child => {
+        if (child instanceof THREE.Mesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+
+      this.sceneManager.scene.add(car);
     });
   }
 
