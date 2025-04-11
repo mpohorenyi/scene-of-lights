@@ -124,7 +124,7 @@ export class SceneSetup {
       const lantern = gltf.scene.children[0].children[0].children[0];
 
       lantern.scale.set(0.001, 0.001, 0.001);
-      lantern.position.set(-0.19, 0.7355, 0.16);
+      lantern.position.set(-0.19, 0.735, 0.16);
       lantern.rotation.x = -Math.PI * 0.5;
 
       lantern.traverse(child => {
@@ -139,6 +139,25 @@ export class SceneSetup {
 
     tableGroup.position.set(2.1, -0.02, 3.3);
     tableGroup.rotation.y = Math.PI * 0.95;
+
+    const candleLight = new THREE.PointLight(0xffb347, 1.2, 2.7, 1.7);
+    candleLight.position.set(-0.1, 0.86, 0.06);
+
+    candleLight.castShadow = true;
+
+    candleLight.shadow.mapSize.set(128, 128);
+
+    candleLight.shadow.radius = 6;
+    candleLight.shadow.bias = -0.005;
+
+    candleLight.shadow.camera.near = 0.01;
+    candleLight.shadow.camera.far = 2.7;
+
+    tableGroup.add(candleLight);
+
+    const glow = new THREE.PointLight(0xffb347, 0.3, 0.8);
+    glow.position.copy(candleLight.position);
+    tableGroup.add(glow);
 
     this.sceneManager.scene.add(tableGroup);
   }
@@ -179,6 +198,23 @@ export class SceneSetup {
 
     streetLampGroup.position.set(3.6, -0.03, -1);
     streetLampGroup.rotation.y = -Math.PI * 0.2;
+
+    const streetLight = new THREE.SpotLight('#ffffc2', 1.3, 5, Math.PI * 0.3, 0.6, 1);
+    streetLight.position.set(0.05, 2.6, 0.6);
+    streetLight.target.position.set(0.5, -3, 1.5);
+
+    streetLight.castShadow = true;
+
+    streetLight.shadow.mapSize.set(256, 256);
+
+    streetLight.shadow.radius = 6;
+    streetLight.shadow.bias = -0.005;
+
+    streetLight.shadow.camera.near = 0.5;
+    streetLight.shadow.camera.far = 4;
+
+    streetLampGroup.add(streetLight);
+    streetLampGroup.add(streetLight.target);
 
     this.sceneManager.scene.add(streetLampGroup);
   }
