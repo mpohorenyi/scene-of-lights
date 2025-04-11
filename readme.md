@@ -111,6 +111,6 @@ npm run build
 ## 🙏 Credits
 
 **3D Models**:
-  - "LP Americans House Mobile" by [spaceparmesan](https://sketchfab.com/spaceparmesan) licensed under [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
   - "Candle Lantern" by [Laetitia Irata](https://sketchfab.com/LaetitiaIrata) licensed under [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
   - "Stylized Street Light" by [Willowboxart](https://sketchfab.com/willowboxart) licensed under [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
+  - "LP Americans House Mobile" by [spaceparmesan](https://sketchfab.com/spaceparmesan) licensed under [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
