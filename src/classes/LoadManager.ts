@@ -7,9 +7,11 @@ export class LoadManager {
   private DRACOLoader: DRACOLoader;
   private GLTFLoader: GLTFLoader;
   private FontLoader: FontLoader;
+  private loadingScreen: HTMLElement | null;
 
   constructor() {
     this.LoadingManager = new THREE.LoadingManager();
+    this.loadingScreen = document.getElementById('loading-screen');
 
     this.TextureLoader = new THREE.TextureLoader(this.LoadingManager);
 
@@ -69,10 +71,16 @@ export class LoadManager {
   private setupLoadingManager(): void {
     this.LoadingManager.onStart = (url: string, loaded: number, total: number) => {
       console.log(`Loading asset: ${url}: ${loaded}/${total}`);
+
+      if (this.loadingScreen) {
+        this.loadingScreen.style.display = 'flex';
+      }
     };
 
     this.LoadingManager.onLoad = () => {
       console.log('All assets loaded');
+
+      this.hideLoadingScreen();
     };
 
     this.LoadingManager.onProgress = (url: string, loaded: number, total: number) => {
@@ -82,5 +90,11 @@ export class LoadManager {
     this.LoadingManager.onError = (url: string) => {
       console.error(`Error loading asset: ${url}`);
     };
+  }
+
+  private hideLoadingScreen(): void {
+    if (!this.loadingScreen) return;
+
+    this.loadingScreen.style.opacity = '0';
   }
 }
