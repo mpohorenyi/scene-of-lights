@@ -50,7 +50,7 @@ export class SkyRenderer {
     this.directionalLight.castShadow = true;
 
     // Configure shadow properties
-    this.directionalLight.shadow.mapSize.set(512, 512);
+    this.directionalLight.shadow.mapSize.set(2048, 2048);
     this.directionalLight.shadow.camera.near = 3;
     this.directionalLight.shadow.camera.far = 30;
     this.directionalLight.shadow.camera.left = -10;
@@ -58,8 +58,8 @@ export class SkyRenderer {
     this.directionalLight.shadow.camera.top = 10;
     this.directionalLight.shadow.camera.bottom = -10;
 
-    this.directionalLight.shadow.radius = 6;
-    this.directionalLight.shadow.bias = -0.005;
+    this.directionalLight.shadow.radius = 4;
+    this.directionalLight.shadow.bias = -0.0005;
 
     this.scene.add(this.directionalLight);
 

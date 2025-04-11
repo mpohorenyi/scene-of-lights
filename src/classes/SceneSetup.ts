@@ -249,7 +249,7 @@ export class SceneSetup {
 
   private setupRendering(): void {
     this.sceneManager.renderer.shadowMap.enabled = true;
-    this.sceneManager.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.sceneManager.renderer.shadowMap.type = THREE.VSMShadowMap;
   }
 
   public startAnimations(): void {
