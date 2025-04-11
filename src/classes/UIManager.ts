@@ -47,7 +47,7 @@ export class UIManager {
     const skyFolder = this.gui.addFolder('Sky System');
 
     skyFolder
-      .add({ animate: false }, 'animate')
+      .add({ animate: true }, 'animate')
       .name('Enable Sun Animation')
       .onChange((value: boolean) => {
         skySystem.setAnimationEnabled(value);

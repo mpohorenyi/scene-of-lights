@@ -11,8 +11,8 @@ export class SunAstronomyCalculator {
    * @param axialTilt Earth's axial tilt in degrees (default: 23.44)
    */
   constructor(
-    private latitude: number = 40,
-    private dayOfYear: number = 130,
+    private latitude: number = -36,
+    private dayOfYear: number = 140,
     private axialTilt: number = 23.44
   ) {
     this.setLatitude(latitude);
