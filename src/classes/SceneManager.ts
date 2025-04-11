@@ -44,6 +44,13 @@ export class SceneManager {
     this.controls = new OrbitControls(this.camera, this.canvas);
     this.controls.enableDamping = true;
     this.controls.target.set(0.3, 1.5, 0.5);
+
+    this.controls.minDistance = 3;
+    this.controls.maxDistance = 30;
+    this.controls.maxPolarAngle = Math.PI * 0.5;
+    this.controls.panSpeed = 0.5;
+    this.controls.screenSpacePanning = false;
+
     this.controls.update();
 
     // Initialize Tween Animation Group
