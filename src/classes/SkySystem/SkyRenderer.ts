@@ -28,7 +28,7 @@ export class SkyRenderer {
   constructor(private scene: THREE.Scene) {
     // Setup sky
     this.sky = new Sky();
-    this.sky.scale.setScalar(450000);
+    this.sky.scale.setScalar(500);
     this.scene.add(this.sky);
 
     this.sun = new THREE.Vector3();
@@ -153,7 +153,7 @@ export class SkyRenderer {
       ambientFactor = 0.3 - (0.3 - 0.05) * twilightProgress;
     } else {
       // Night: Constant minimal illumination
-      ambientFactor = 0.05;
+      ambientFactor = 0.07;
     }
 
     // Set light intensities
