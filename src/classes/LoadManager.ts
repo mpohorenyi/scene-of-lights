@@ -96,5 +96,6 @@ export class LoadManager {
     if (!this.loadingScreen) return;
 
     this.loadingScreen.style.opacity = '0';
+    this.loadingScreen.style.display = 'none';
   }
 }
