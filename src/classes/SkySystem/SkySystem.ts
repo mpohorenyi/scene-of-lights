@@ -149,6 +149,24 @@ export class SkySystem {
   }
 
   /**
+   * Gets the night light intensity based on sun elevation
+   * @returns Night light intensity (0-1)
+   */
+  public getNightLightIntensity(): number {
+    const sunElevation = this.skyRenderer.getSunElevation();
+
+    if (sunElevation > 80) {
+      return sunElevation / 100;
+    }
+
+    if (sunElevation > 100) {
+      return 1;
+    }
+
+    return 0;
+  }
+
+  /**
    * Updates the system, should be called in animation loop
    */
   public update(): void {

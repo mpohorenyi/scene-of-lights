@@ -41,24 +41,25 @@ export class SkyRenderer {
     uniforms.mieDirectionalG.value = this.skyParameters.mieDirectionalG;
 
     // Setup ambient light
-    this.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    this.ambientLight = new THREE.AmbientLight('#fff9e1', 0.5);
     this.scene.add(this.ambientLight);
 
     // Setup directional light
-    this.directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    this.directionalLight = new THREE.DirectionalLight('#fff9e1', 1.5);
     this.directionalLight.position.set(-3, 3, -3);
     this.directionalLight.castShadow = true;
 
     // Configure shadow properties
-    this.directionalLight.shadow.mapSize.width = 1024;
-    this.directionalLight.shadow.mapSize.height = 1024;
-    this.directionalLight.shadow.camera.near = 0.5;
-    this.directionalLight.shadow.camera.far = 50;
+    this.directionalLight.shadow.mapSize.set(512, 512);
+    this.directionalLight.shadow.camera.near = 3;
+    this.directionalLight.shadow.camera.far = 30;
     this.directionalLight.shadow.camera.left = -10;
     this.directionalLight.shadow.camera.right = 10;
     this.directionalLight.shadow.camera.top = 10;
     this.directionalLight.shadow.camera.bottom = -10;
-    this.directionalLight.shadow.bias = -0.0003;
+
+    this.directionalLight.shadow.radius = 6;
+    this.directionalLight.shadow.bias = -0.005;
 
     this.scene.add(this.directionalLight);
 
@@ -73,6 +74,14 @@ export class SkyRenderer {
 
     // Initial sun position
     this.updateSunPosition(this.skyParameters.sunElevation, this.skyParameters.sunAzimuth);
+  }
+
+  /**
+   * Get the current sun elevation
+   * @returns Current sun elevation in degrees
+   */
+  public getSunElevation(): number {
+    return this.skyParameters.sunElevation;
   }
 
   /**
@@ -108,7 +117,7 @@ export class SkyRenderer {
    */
   private syncLightWithSun(): void {
     const sunDirection = this.sun.clone().normalize();
-    const lightDistance = 10;
+    const lightDistance = 15;
     const lightPosition = sunDirection.multiplyScalar(lightDistance);
 
     this.directionalLight.position.copy(lightPosition);

@@ -7,7 +7,7 @@ import { SunAstronomyCalculator } from './SunAstronomyCalculator';
  */
 export class SunPathVisualizer {
   private sunPathGroup: THREE.Group;
-  private readonly pathRadius = 10; // Distance from origin for sun path visualization
+  private readonly pathRadius = 15; // Distance from origin for sun path visualization
 
   /**
    * Creates a new sun path visualizer
@@ -79,7 +79,7 @@ export class SunPathVisualizer {
     geometry.name = 'sunPathGeometry';
 
     const material = new THREE.LineBasicMaterial({
-      color: 0xffff00,
+      color: 'green',
       linewidth: 1,
     });
     material.name = 'sunPathMaterial';
