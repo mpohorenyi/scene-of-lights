@@ -14,7 +14,7 @@ export class SkySystem {
   private readonly skyRenderer: SkyRenderer;
   private readonly sunPathVisualizer: SunPathVisualizer;
 
-  private dayTime: number = 0;
+  private dayTime: number = 9;
   private animateSun: boolean = false;
   private animationSpeed: number = 8; // Minutes of virtual time per second of real time
 

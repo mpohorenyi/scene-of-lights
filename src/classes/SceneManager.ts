@@ -30,8 +30,9 @@ export class SceneManager {
     this.scene = new THREE.Scene();
 
     // Initialize Camera
-    this.camera = new THREE.PerspectiveCamera(75, this.sizes.aspectRatio, 0.1, 300);
-    this.camera.position.set(3, 3, 3);
+    this.camera = new THREE.PerspectiveCamera(60, this.sizes.aspectRatio, 0.1, 300);
+    this.camera.position.set(5, 1.5, 5);
+    this.camera.lookAt(0.3, 1.5, 0.5);
     this.scene.add(this.camera);
 
     // Initialize Renderer
@@ -42,6 +43,8 @@ export class SceneManager {
     // Initialize Controls
     this.controls = new OrbitControls(this.camera, this.canvas);
     this.controls.enableDamping = true;
+    this.controls.target.set(0.3, 1.5, 0.5);
+    this.controls.update();
 
     // Initialize Tween Animation Group
     this.animationGroup = new Group();
