@@ -19,9 +19,7 @@ export class SceneSetup {
 
     this.createTableWithChairsAndLantern();
 
-    this.createStreetLampWithChair();
-
-    this.createCar();
+    this.createCarWithStreetLight();
 
     this.skySystem = new SkySystem(this.sceneManager.scene, this.sceneManager.timer);
   }
@@ -175,13 +173,32 @@ export class SceneSetup {
     });
   }
 
-  private createStreetLampWithChair(): void {
-    const streetLampGroup = new THREE.Group();
+  private createCarWithStreetLight(): void {
+    const carGroup = new THREE.Group();
+
+    this.loadManager.loadGLTF('models/covered_car_draco/scene.gltf', gltf => {
+      const car = gltf.scene;
+
+      car.scale.set(1.1, 1.1, 1.1);
+      car.rotation.y = Math.PI * 0.4;
+
+      car.traverse(child => {
+        if (child instanceof THREE.Mesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+
+      carGroup.add(car);
+    });
 
     this.loadManager.loadGLTF('models/stylized_street_light/scene.gltf', gltf => {
       const lamp = gltf.scene.children[0].children[0].children[0].children[0];
 
       lamp.scale.set(0.01, 0.01, 0.01);
+
+      lamp.position.set(2.5, -0.03, -1);
+      lamp.rotation.y = -Math.PI * 0.2;
 
       lamp.traverse(child => {
         if (child instanceof THREE.Mesh) {
@@ -190,40 +207,21 @@ export class SceneSetup {
         }
       });
 
-      streetLampGroup.add(lamp);
+      carGroup.add(lamp);
     });
 
-    this.loadManager.loadGLTF('models/Rockingchair_01_1k.gltf/Rockingchair_01_1k.gltf', gltf => {
-      const chair = gltf.scene.children[0];
-
-      chair.position.set(0.1, -0.05, 0.85);
-      chair.rotation.y = Math.PI * 0.1;
-
-      chair.traverse(child => {
-        if (child instanceof THREE.Mesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-
-      streetLampGroup.add(chair);
-    });
-
-    streetLampGroup.position.set(3.6, -0.03, -1);
-    streetLampGroup.rotation.y = -Math.PI * 0.2;
-
-    const maxStreetLightIntensity = 1.3;
+    const maxStreetLightIntensity = 1.7;
 
     const streetLight = new THREE.SpotLight(
       '#ffffc2',
       maxStreetLightIntensity,
       5,
-      Math.PI * 0.3,
+      Math.PI * 0.35,
       0.6,
       1
     );
-    streetLight.position.set(0.05, 2.6, 0.6);
-    streetLight.target.position.set(0.5, -3, 1.5);
+    streetLight.position.set(2.1, 2.6, -0.51);
+    streetLight.target.position.set(2.1, -3, 0);
 
     streetLight.castShadow = true;
 
@@ -235,34 +233,17 @@ export class SceneSetup {
     streetLight.shadow.camera.near = 0.5;
     streetLight.shadow.camera.far = 4;
 
-    streetLampGroup.add(streetLight);
-    streetLampGroup.add(streetLight.target);
+    carGroup.add(streetLight);
+    carGroup.add(streetLight.target);
 
-    this.sceneManager.scene.add(streetLampGroup);
+    carGroup.position.set(0.5, -0.03, -4.5);
+
+    this.sceneManager.scene.add(carGroup);
 
     this.sceneManager.addToAnimationLoop(() => {
       const nightLightIntensity = this.skySystem.getNightLightIntensity();
 
       streetLight.intensity = maxStreetLightIntensity * nightLightIntensity;
-    });
-  }
-
-  private createCar(): void {
-    this.loadManager.loadGLTF('models/covered_car_draco/scene.gltf', gltf => {
-      const car = gltf.scene;
-
-      car.scale.set(1.1, 1.1, 1.1);
-      car.position.set(0.1, -0.03, -5.5);
-      car.rotation.y = Math.PI * 0.55;
-
-      car.traverse(child => {
-        if (child instanceof THREE.Mesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-
-      this.sceneManager.scene.add(car);
     });
   }
 
