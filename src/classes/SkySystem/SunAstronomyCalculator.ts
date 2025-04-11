@@ -155,11 +155,11 @@ export class SunAstronomyCalculator {
   public getDayInfoString(): string {
     const sunrise = this.getSunriseTime();
     const sunset = this.getSunsetTime();
-    const dayLength = this.getDaylightDuration();
+    // const dayLength = this.getDaylightDuration();
 
-    let sunriseStr = '',
-      sunsetStr = '',
-      dayLengthStr = '';
+    let sunriseStr = '';
+    let sunsetStr = '';
+    // let dayLengthStr = '';
 
     // Format sunrise time
     if (sunrise === -1) {
@@ -183,12 +183,12 @@ export class SunAstronomyCalculator {
       sunsetStr = `${sunsetHours.toString().padStart(2, '0')}:${sunsetMinutes.toString().padStart(2, '0')}`;
     }
 
-    // Format day length
-    const dayHours = Math.floor(dayLength);
-    const dayMinutes = Math.floor((dayLength - dayHours) * 60);
-    dayLengthStr = `${dayHours.toString().padStart(2, '0')}:${dayMinutes.toString().padStart(2, '0')}`;
+    // // Format day length
+    // const dayHours = Math.floor(dayLength);
+    // const dayMinutes = Math.floor((dayLength - dayHours) * 60);
+    // dayLengthStr = `${dayHours.toString().padStart(2, '0')}:${dayMinutes.toString().padStart(2, '0')}`;
 
-    return `Sunrise: ${sunriseStr}, Sunset: ${sunsetStr}, Day length: ${dayLengthStr}`;
+    return `Sunrise: ${sunriseStr}, Sunset: ${sunsetStr}`;
   }
 
   /**
