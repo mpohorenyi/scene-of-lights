@@ -2,7 +2,7 @@ import { GUI } from 'lil-gui';
 
 import { GammaCorrectionShader, ShaderPass } from 'three/examples/jsm/Addons.js';
 import { SceneManager } from '../SceneManager';
-import { BloomEffect, EffectBase } from './effects';
+import { BloomEffect, EffectBase, GlitchEffect } from './effects';
 
 export class PostProcessingManager {
   private sceneManager: SceneManager;
@@ -19,6 +19,11 @@ export class PostProcessingManager {
     const bloomEffect = new BloomEffect(this.sceneManager);
     bloomEffect.setup();
     this.effects.push(bloomEffect);
+
+    // Initializing the Glitch effect
+    const glitchEffect = new GlitchEffect(this.sceneManager);
+    glitchEffect.setup();
+    this.effects.push(glitchEffect);
 
     // Initializing the Gamma Correction effect
     const gammaCorrectionEffect = new ShaderPass(GammaCorrectionShader);
