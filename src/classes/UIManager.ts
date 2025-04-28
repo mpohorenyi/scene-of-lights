@@ -1,5 +1,6 @@
 import GUI from 'lil-gui';
 
+import { PostProcessingManager } from './PostProcessing';
 import { SceneManager } from './SceneManager';
 import { SkySystem } from './SkySystem';
 
@@ -33,6 +34,10 @@ export class UIManager {
       .onChange((value: boolean) => {
         sceneManager.controls.enabled = value;
       });
+  }
+
+  public initPostProcessingInterface(postProcessingManager: PostProcessingManager): void {
+    postProcessingManager.setupUI(this.gui);
   }
 
   public updateTimeDisplay(timeString: string): void {
