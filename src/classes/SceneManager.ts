@@ -1,6 +1,5 @@
-import { Group } from '@tweenjs/tween.js';
 import * as THREE from 'three';
-import { OrbitControls, Timer } from 'three/examples/jsm/Addons.js';
+import { EffectComposer, OrbitControls, RenderPass, Timer } from 'three/examples/jsm/Addons.js';
 
 export class SceneManager {
   public canvas: HTMLCanvasElement;
@@ -8,8 +7,9 @@ export class SceneManager {
   public camera: THREE.PerspectiveCamera;
   public renderer: THREE.WebGLRenderer;
   public controls: OrbitControls;
-  public animationGroup: Group;
   public timer: Timer;
+
+  public effectComposer: EffectComposer;
 
   private animationCallbacks: Array<() => void> = [];
 
@@ -54,11 +54,16 @@ export class SceneManager {
     this.controls.enabled = false;
     this.controls.update();
 
-    // Initialize Tween Animation Group
-    this.animationGroup = new Group();
-
     // Initialize Timer
     this.timer = new Timer();
+
+    // Initialize Effect Composer
+    this.effectComposer = new EffectComposer(this.renderer);
+    this.effectComposer.setSize(this.sizes.width, this.sizes.height);
+    this.effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const renderPass = new RenderPass(this.scene, this.camera);
+    this.effectComposer.addPass(renderPass);
 
     this.setupEventListeners();
 
@@ -73,6 +78,10 @@ export class SceneManager {
     this.animationCallbacks.push(callback);
   }
 
+  public getSizes(): { width: number; height: number; aspectRatio: number } {
+    return this.sizes;
+  }
+
   private setupEventListeners() {
     window.addEventListener('resize', () => {
       this.sizes.width = window.innerWidth;
@@ -84,6 +93,9 @@ export class SceneManager {
 
       this.renderer.setSize(this.sizes.width, this.sizes.height);
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      this.effectComposer.setSize(this.sizes.width, this.sizes.height);
+      this.effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     });
 
     window.addEventListener('keydown', event => {
@@ -111,13 +123,11 @@ export class SceneManager {
   private tick() {
     this.timer.update();
 
-    this.animationGroup.update();
-
     this.animationCallbacks.forEach(callback => callback());
 
     this.controls.update();
 
-    this.renderer.render(this.scene, this.camera);
+    this.effectComposer.render();
 
     window.requestAnimationFrame(this.tick.bind(this));
   }
