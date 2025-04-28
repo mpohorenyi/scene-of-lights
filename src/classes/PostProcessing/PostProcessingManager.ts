@@ -7,6 +7,7 @@ import {
   DepthOfFieldEffect,
   EffectBase,
   GlitchEffect,
+  SSAOEffect,
   VignetteEffect,
 } from './effects';
 
@@ -21,6 +22,11 @@ export class PostProcessingManager {
   }
 
   private initEffects(): void {
+    // Initializing the SSAO effect
+    const ssaoEffect = new SSAOEffect(this.sceneManager);
+    ssaoEffect.setup();
+    this.effects.push(ssaoEffect);
+
     // Initializing the Bloom effect
     const bloomEffect = new BloomEffect(this.sceneManager);
     bloomEffect.setup();
@@ -41,7 +47,7 @@ export class PostProcessingManager {
     depthOfFieldEffect.setup();
     this.effects.push(depthOfFieldEffect);
 
-    // Initializing the Gamma Correction effect
+    // Initializing the Gamma Correction effect (should always be last)
     const gammaCorrectionEffect = new ShaderPass(GammaCorrectionShader);
     this.sceneManager.effectComposer.addPass(gammaCorrectionEffect);
   }
